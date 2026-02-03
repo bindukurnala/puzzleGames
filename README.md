@@ -1,5 +1,5 @@
 # puzzleGames
-# Java Puzzle Game with Browser Interface
+# Game with Browser Interface
 
 ## 📌 Project Overview
 
