@@ -1,2 +1,2 @@
 # puzzleGames
-This is game created using Java and runs through lightweight webserver. This game consists of word scrambles and fill the missing element challenges.
+This is a game created using Java and runs through lightweight webserver. This game consists of word scrambles and fill the missing element challenges.
