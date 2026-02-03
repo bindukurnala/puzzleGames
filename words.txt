@@ -1,0 +1,10 @@
+apple
+banana
+cherry
+dragon
+elephant
+flower
+guitar
+house
+island
+jungle

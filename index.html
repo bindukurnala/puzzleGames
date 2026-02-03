@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Puzzle Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff; /* light background */
+        }
+
+        h1 {
+            background-color: #4682b4; /* steel blue header */
+            color: white;
+            padding: 20px 0;
+            margin: 0;
+        }
+
+        #lives-display {
+            font-size: 18px;
+            margin: 15px 0;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #87cefa; /* light sky blue */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #00bfff; /* deep sky blue on hover */
+            color: white;
+        }
+
+        #puzzle-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #puzzle-text {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #answer-input {
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #ff4500; /* orange-red for messages */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Puzzle Game</h1>
+    <p id="lives-display">Lives: 3</p>
+
+    <div id="choice-section">
+        <h2>Choose a Puzzle</h2>
+        <button onclick="startGame('math')">Math Pattern Puzzle</button>
+        <button onclick="startGame('word')">Word Scramble Puzzle</button>
+    </div>
+
+    <div id="puzzle-section">
+        <p id="puzzle-text"></p>
+        <input type="text" id="answer-input" placeholder="Your answer">
+        <button onclick="submitAnswer()">Submit</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        let lives = 3;
+        let currentAnswer = "";
+        let currentType = "";
+
+        const wordList = ["apple", "banana", "cherry", "orange", "grape"];
+        const sequences = ["A,B,C,D", "X,Y,Z", "1,2,3,4", "10,20,30,40"];
+
+        function startGame(type) {
+            currentType = type;
+            document.getElementById('choice-section').style.display = 'none';
+            document.getElementById('puzzle-section').style.display = 'block';
+            document.getElementById('message').textContent = "";
+            document.getElementById('answer-input').value = "";
+
+            if (type === 'math') generateMathPuzzle();
+            else if (type === 'word') generateWordPuzzle();
+        }
+
+        function generateMathPuzzle() {
+            const seq = sequences[Math.floor(Math.random() * sequences.length)];
+            const elements = seq.split(",");
+            const hideIndex = Math.floor(Math.random() * elements.length);
+            currentAnswer = elements[hideIndex];
+            elements[hideIndex] = "_";
+            document.getElementById('puzzle-text').textContent = elements.join(", ");
+        }
+
+        function generateWordPuzzle() {
+            const word = wordList[Math.floor(Math.random() * wordList.length)];
+            currentAnswer = word;
+            const scrambled = word.split("").sort(() => 0.5 - Math.random()).join("");
+            document.getElementById('puzzle-text').textContent = scrambled;
+        }
+
+        function submitAnswer() {
+            const userInput = document.getElementById('answer-input').value.trim();
+            const messageEl = document.getElementById('message');
+
+            if (userInput.toLowerCase() === currentAnswer.toLowerCase()) {
+                messageEl.textContent = "Correct!";
+                messageEl.style.color = "#32cd32"; // lime green for correct
+            } else {
+                messageEl.textContent = "Incorrect! Correct answer: " + currentAnswer;
+                messageEl.style.color = "#ff4500"; // orange-red for incorrect
+                lives--;
+                document.getElementById('lives-display').textContent = "Lives: " + lives;
+            }
+
+            if (lives <= 0) {
+                messageEl.textContent = "Game Over! You ran out of lives.";
+                messageEl.textContent += " Refresh the page to play again.";
+                messageEl.style.color = "#ff0000";
+            }
+
+            setTimeout(() => {
+                if (lives > 0) {
+                    document.getElementById('choice-section').style.display = 'block';
+                    document.getElementById('puzzle-section').style.display = 'none';
+                } else {
+                    document.getElementById('choice-section').style.display = 'none';
+                    document.getElementById('puzzle-section').style.display = 'none';
+                    
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
